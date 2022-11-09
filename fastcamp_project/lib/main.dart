@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fastcamp_project/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,21 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appbar'),
-      ),
-      body: const Text('flutter'),
+      home: const HomeScreen(),
     );
   }
 }
