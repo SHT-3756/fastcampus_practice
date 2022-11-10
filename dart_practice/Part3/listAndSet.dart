@@ -31,7 +31,7 @@ void main2() {
   print(list[0]); // a
   print(list[3]); // a
 
-  print(list.lengh); // 4
+  print(list.length); // 4
 
   // 포함 여부를 확인하는 연산자
   print(list.contains('a')); // true
