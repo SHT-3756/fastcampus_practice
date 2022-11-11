@@ -85,7 +85,7 @@ void main() {
     90점 학생, 9 번째 합격입니다.
     */
 
-    // for in 반복문 객체의 속성들을 반복가능
+    // for in 반복문 열거형 이다.
     for (var score in scoreList) {
       print('점수 : $score');
     }
