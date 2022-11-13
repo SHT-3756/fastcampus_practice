@@ -1,6 +1,6 @@
 import 'shape.dart';
 
-class Rectangle extends Shape {
+class Rectangle implements Shape {
   Rectangle(this.width, this.height);
 
   double width;
@@ -9,5 +9,13 @@ class Rectangle extends Shape {
   @override
   double getArea() {
     return width * height;
+  }
+
+  @override
+  String? color;
+
+  @override
+  void draw() {
+    // TODO: implement draw
   }
 }

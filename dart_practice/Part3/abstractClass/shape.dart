@@ -1,5 +1,6 @@
-class Shape {
-  double getArea() {
-    return 0;
-  }
+abstract class Shape {
+  String? color;
+
+  void draw();
+  double getArea();
 }
