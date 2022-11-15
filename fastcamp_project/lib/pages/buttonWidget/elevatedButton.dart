@@ -52,6 +52,7 @@ class ElevatedButtonPage extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.blue,
                   backgroundColor: Colors.white,
+                  // withOpacity() 로 불투명도 조정
                   disabledForegroundColor: Colors.blue.withOpacity(0.38),
                 ),
                 child: const Text('OutlinedButton2')),
