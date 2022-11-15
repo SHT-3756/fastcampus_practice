@@ -1,6 +1,7 @@
 import 'package:fastcamp_project/pages/alignSpacerExpanded/align.dart';
 import 'package:fastcamp_project/pages/alignSpacerExpanded/expanded.dart';
 import 'package:fastcamp_project/pages/alignSpacerExpanded/spacer.dart';
+import 'package:fastcamp_project/pages/buttonWidget/elevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:fastcamp_project/pages/home_page.dart';
 
@@ -17,9 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.orange,
       ),
-      home: const ExpandedPage(),
+      home: const ElevatedButtonPage(),
     );
   }
 }
