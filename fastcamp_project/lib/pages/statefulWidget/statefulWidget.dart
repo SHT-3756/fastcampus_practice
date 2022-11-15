@@ -16,6 +16,17 @@ class _StatefulWidgetPageState extends State<StatefulWidgetPage> {
       appBar: AppBar(
         title: const Text('ElevatedButton study'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(
+          () {
+            count = 0;
+          },
+        ),
+        child: const Icon(
+          Icons.home,
+          color: Colors.white,
+        ),
+      ),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
