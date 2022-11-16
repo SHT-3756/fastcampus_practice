@@ -16,10 +16,6 @@ class _BottomNavigationBarPageState extends State<BottomNavigationBarPage> {
   double _slider = 0;
   TextEditingController _text = TextEditingController();
 
-  // int _index = 1;
-  // double _sliderValue = 0;
-  // TextEditingController _text = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,6 +2,8 @@ import 'package:fastcamp_project/pages/alignSpacerExpanded/align.dart';
 import 'package:fastcamp_project/pages/alignSpacerExpanded/expanded.dart';
 import 'package:fastcamp_project/pages/alignSpacerExpanded/spacer.dart';
 import 'package:fastcamp_project/pages/buttonWidget/elevatedButton.dart';
+import 'package:fastcamp_project/pages/meterial/bottomNavigationBar.dart';
+import 'package:fastcamp_project/pages/meterial/navigator.dart';
 import 'package:fastcamp_project/pages/statefulWidget/statefulWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:fastcamp_project/pages/home_page.dart';
@@ -17,11 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: StatefulWidgetPage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        // home: const BottomNavigationBarPage(),
+        home: const NaviGatorPage());
   }
 }
