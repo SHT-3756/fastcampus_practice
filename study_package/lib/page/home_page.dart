@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +30,13 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
                 onPressed: () {
                   // 눌렀을때 함수 호출
-                  _showToast();
+                  // _showToast();
+                  EasyLoading.showSuccess('Great Success!');
+                  EasyLoading.addStatusCallback((status) {
+                    print('EasyLoading Status $status');
+                  });
+
+                  EasyLoading.removeAllCallbacks();
                 },
                 child: const Text('btn')),
             const Center(
