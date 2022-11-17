@@ -5,6 +5,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:study_package/main.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -80,10 +82,44 @@ class _HomePageState extends State<HomePage> {
                     // return toast 권한이 없습니다.
                     return;
                   }
-                  await flutterLocalNotificationsPlugin.show(
-                      0, 'ios 알림 제목', 'ios 알림 내용', detail);
+                  // await flutterLocalNotificationsPlugin.show(
+                  //     0, 'ios 알림 제목', 'ios 알림 내용', detail);
+                  // 타임존 셋팅 필요
+                  final now = tz.TZDateTime.now(tz.local);
+                  var notiDay = now.day;
+                  print(notiDay);
+                  // 예외처리
+                  // if (now.hour > hour ||
+                  //     now.hour == hour && now.minute >= minute) {
+                  //   notiDay = notiDay + 1;
+                  // }
+
+                  await notification.zonedSchedule(
+                    1,
+                    "alarmTitle",
+                    "alarmDescription",
+                    tz.TZDateTime(
+                      tz.local,
+                      now.year,
+                      now.month,
+                      notiDay,
+                      now.hour,
+                      now.minute + 1,
+                    ),
+                    detail,
+                    // 저전력 모드일떄 실행할 것인지에 대한 여부
+                    androidAllowWhileIdle: true,
+                    uiLocalNotificationDateInterpretation:
+                        UILocalNotificationDateInterpretation.absoluteTime,
+                    matchDateTimeComponents: DateTimeComponents.time,
+                  );
                 },
                 child: const Text('알림 버튼')),
+            ElevatedButton(
+                onPressed: () async {
+                  await FlutterLocalNotificationsPlugin().cancel(0);
+                },
+                child: const Text('알람 삭제')),
             const Center(
               child: Text('hi'),
             )
