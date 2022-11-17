@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:study_package/page/home_page.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   // 플러터 엔진과 상호작용을 위해서 선언
@@ -16,6 +19,13 @@ final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 // private 으로 작성된 이유는 이 파일 내부에서만 접근할 것이기 때문
 void _initNotiSetting() async {
+  tz.initializeTimeZones();
+
+// 'Asia/Seoul'
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
+
   const initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
