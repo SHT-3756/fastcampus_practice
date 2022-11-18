@@ -16,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late TextEditingController _controller;
+
   late FToast fToast;
 
   @override
@@ -23,6 +25,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fToast = FToast();
     fToast.init(context);
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -120,6 +129,28 @@ class _HomePageState extends State<HomePage> {
                   await FlutterLocalNotificationsPlugin().cancel(0);
                 },
                 child: const Text('알람 삭제')),
+            TextField(
+              controller: _controller,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: '시간'),
+              onSubmitted: (value) async => {
+                print('value'),
+                await showDialog<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Thanks!'),
+                        content: Text('hi $value ${value.length}'),
+                        actions: <Widget>[
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('ok'))
+                        ],
+                      );
+                    })
+              },
+            ),
             const Center(
               child: Text('hi'),
             )

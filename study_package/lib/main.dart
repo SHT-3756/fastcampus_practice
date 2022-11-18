@@ -3,13 +3,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:study_package/page/home_page.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:study_package/page/image_picker.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   // 플러터 엔진과 상호작용을 위해서 선언
-  WidgetsFlutterBinding.ensureInitialized();
-  _initNotiSetting();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // _initNotiSetting();
   runApp(const MyApp());
 }
 // flutter_local_notifications 패키지 안에 FlutterLocalNotificationsPlugin의 생성자가 필요하기 때문에,import 해주자!
@@ -61,8 +62,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
-      builder: EasyLoading.init(),
+      home: const ImagePickerPage(),
+      // builder: EasyLoading.init(),
     );
   }
 }
