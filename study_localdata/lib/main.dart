@@ -18,16 +18,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = Hive.box('darkModeBox').get('mode', defaultValue: false);
-
-    return MaterialApp(
-      title: 'Flutter Demo',
-      themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-      darkTheme: ThemeData.dark(),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const UserListPage(),
+    return ValueListenableBuilder(
+      valueListenable: Hive.box('darkModeBox').listenable(),
+      builder: (context, box, widget) {
+        final darkMode = box.get('mode', defaultValue: false);
+        return MaterialApp(
+          title: 'Flutter Demo',
+          themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+          darkTheme: ThemeData.dark(),
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const UserListPage(),
+        );
+      },
     );
   }
 }

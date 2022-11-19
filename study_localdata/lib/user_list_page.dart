@@ -18,6 +18,7 @@ class _UserListPageState extends State<UserListPage> {
   TextEditingController ageController = TextEditingController();
 
   final users = <InputForm>[];
+  // late 로 선언하는 것은 나중에 사용할테니, 초기화할때 이슈뜨지 않게 선언
   late Box _darkMode;
 
   @override
@@ -26,6 +27,7 @@ class _UserListPageState extends State<UserListPage> {
     _darkMode = Hive.box('darkModeBox');
   }
 
+  // dispose : 컨트롤러 객체가 제거 될떄 변수에 할당된 메모리 할당 해제를 위함
   @override
   void dispose() {
     nameController.dispose();
