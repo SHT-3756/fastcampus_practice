@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MyColors {
+class CustomColors {
   static const int _primaryColorValue = 0xFF151515;
   static const primaryColor = Color(_primaryColorValue);
 
