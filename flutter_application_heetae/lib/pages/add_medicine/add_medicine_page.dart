@@ -72,13 +72,11 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                                                 .pickImage(
                                                     source: ImageSource.camera)
                                                 .then((xFile) {
-                                              // xFile 값 null 이면 return
                                               if (xFile != null) {
                                                 //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
                                                 setState(() {
                                                   _pickedImage =
                                                       File(xFile.path);
-                                                  Navigator.maybePop(context);
                                                 });
                                               }
                                               // xFile 이 없으면 pop 해줘라!
@@ -97,7 +95,6 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                                                 setState(() {
                                                   _pickedImage =
                                                       File(xFile.path);
-                                                  Navigator.maybePop(context);
                                                 });
                                               }
                                               // xFile 이 없으면 pop 해줘라!
