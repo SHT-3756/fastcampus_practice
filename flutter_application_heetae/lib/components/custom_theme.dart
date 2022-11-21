@@ -8,6 +8,7 @@ class CustomTheme {
         scaffoldBackgroundColor: Colors.white,
         splashColor: Colors.white,
         textTheme: _textTheme,
+        appBarTheme: _appBarTheme,
         brightness: Brightness.light,
       );
   static ThemeData get darkTheme => ThemeData(
@@ -17,6 +18,13 @@ class CustomTheme {
         textTheme: _textTheme,
         brightness: Brightness.dark,
       );
+
+  static const AppBarTheme _appBarTheme = AppBarTheme(
+      // 배경색 흰색으로 바꿔준다.
+      backgroundColor: Colors.white,
+      // theme 에서 iconTheme 로 스타일을 변경해주었다. (따로 만든 CustomColors 도 적용)
+      iconTheme: IconThemeData(color: CustomColors.primaryColor),
+      elevation: 0);
 
   static const TextTheme _textTheme = TextTheme(
     headline4: TextStyle(
