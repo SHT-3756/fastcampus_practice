@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,8 +15,6 @@ class AddMedicinePage extends StatefulWidget {
 class _AddMedicinePageState extends State<AddMedicinePage> {
   final _nameController = TextEditingController();
 
-  File? _pickedImage;
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -28,7 +25,6 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // X 버튼
         leading: const CloseButton(),
       ),
       body: GestureDetector(
@@ -38,6 +34,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
         },
         child: Padding(
           padding: pagePadding,
+          // 페이지 스크롤 가능하게 위젯 사용
           child: SingleChildScrollView(
             child: Column(
               // 반대축 정렬 start
@@ -50,77 +47,8 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                 const SizedBox(
                   height: largeSpace,
                 ),
-                Center(
-                  child: CircleAvatar(
-                    // 사이즈
-                    radius: 40,
-                    child: CupertinoButton(
-                      padding: _pickedImage == null ? null : EdgeInsets.zero,
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return SafeArea(
-                                child: Padding(
-                                  padding: pagePadding,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            ImagePicker()
-                                                .pickImage(
-                                                    source: ImageSource.camera)
-                                                .then((xFile) {
-                                              if (xFile != null) {
-                                                //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
-                                                setState(() {
-                                                  _pickedImage =
-                                                      File(xFile.path);
-                                                });
-                                              }
-                                              // xFile 이 없으면 pop 해줘라!
-                                              Navigator.maybePop(context);
-                                            });
-                                          },
-                                          child: const Text('카메라 열기')),
-                                      TextButton(
-                                          onPressed: () {
-                                            ImagePicker()
-                                                .pickImage(
-                                                    source: ImageSource.gallery)
-                                                .then((xFile) {
-                                              if (xFile != null) {
-                                                //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
-                                                setState(() {
-                                                  _pickedImage =
-                                                      File(xFile.path);
-                                                });
-                                              }
-                                              // xFile 이 없으면 pop 해줘라!
-                                              Navigator.maybePop(context);
-                                            });
-                                          },
-                                          child: const Text('갤러리 열기')),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                      child: _pickedImage == null
-                          ? const Icon(
-                              CupertinoIcons.photo_camera_solid,
-                              size: 30,
-                              color: Colors.white,
-                            )
-                          : CircleAvatar(
-                              // nullCheck ! 를 해주어 무조건 들어온다 라는 것을 의미
-                              foregroundImage: FileImage(_pickedImage!),
-                              radius: 40,
-                            ),
-                    ),
-                  ),
+                const Center(
+                  child: MedicineImageButton(),
                 ),
                 const SizedBox(
                   height: largeSpace + regularSpace,
@@ -164,6 +92,93 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
           ),
         ),
       )),
+    );
+  }
+}
+
+// 이미지 버튼 클래스
+class MedicineImageButton extends StatefulWidget {
+  const MedicineImageButton({super.key});
+
+  @override
+  State<MedicineImageButton> createState() => _MedicineImageButtonState();
+}
+
+class _MedicineImageButtonState extends State<MedicineImageButton> {
+  File? _pickedImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      // 사이즈
+      radius: 40,
+      child: CupertinoButton(
+        padding: _pickedImage == null ? null : EdgeInsets.zero,
+        onPressed: _showBottomSheet,
+        child: _pickedImage == null
+            ? const Icon(
+                CupertinoIcons.photo_camera_solid,
+                size: 30,
+                color: Colors.white,
+              )
+            : CircleAvatar(
+                // nullCheck ! 를 해주어 무조건 들어온다 라는 것을 의미
+                foregroundImage: FileImage(_pickedImage!),
+                radius: 40,
+              ),
+      ),
+    );
+  }
+
+  // CupertinoButton 눌렀을때 실행되는 함수
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return PickImageBottomSheet(
+            onPressedCamera: (() => _onPressed(ImageSource.camera)),
+            onPressedGallery: (() => _onPressed(ImageSource.gallery)),
+          );
+        });
+  }
+
+// onPressed 의 공통적인 함수 분리
+  void _onPressed(ImageSource source) {
+    ImagePicker().pickImage(source: source).then((xFile) {
+      if (xFile != null) {
+        //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
+        setState(() {
+          _pickedImage = File(xFile.path);
+        });
+      }
+      // xFile 이 없으면 pop 해줘라!
+      Navigator.maybePop(context);
+    });
+  }
+}
+
+// 뷰단에 보여지는 실질적인 바텀 시트
+class PickImageBottomSheet extends StatelessWidget {
+  const PickImageBottomSheet(
+      {super.key, this.onPressedCamera, this.onPressedGallery});
+
+  final VoidCallback? onPressedCamera;
+  final VoidCallback? onPressedGallery;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: pagePadding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(onPressed: onPressedCamera, child: const Text('카메라 열기')),
+            TextButton(
+                onPressed: onPressedGallery, child: const Text('갤러리 열기')),
+          ],
+        ),
+      ),
     );
   }
 }
