@@ -24,5 +24,5 @@ const EdgeInsetsGeometry textFieldContentPadding =
 /// `symmetric`
 /// horizontal: 20
 /// vertical: 10
-const EdgeInsetsGeometry submitBUttonBoxPadding =
+const EdgeInsetsGeometry submitButtonBoxPadding =
     EdgeInsets.symmetric(horizontal: 20, vertical: 10);
