@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_colors.dart';
-import 'package:flutter_application_heetae/pages/add/add_page.dart';
+import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/pages/history/history_page.dart';
 import 'package:flutter_application_heetae/pages/today/today_page.dart';
 
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const AddPage(),
+          builder: (context) => const AddMedicinePage(),
         ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_theme.dart';
+import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/pages/home_page.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.lightTheme,
-      home: const HomePage(),
+      home: const AddMedicinePage(),
     );
   }
 }
