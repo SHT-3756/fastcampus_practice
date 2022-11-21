@@ -38,73 +38,118 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
         },
         child: Padding(
           padding: pagePadding,
-          child: Column(
-            // 반대축 정렬 start
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '어떤 약인가요?',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              const SizedBox(
-                height: largeSpace,
-              ),
-              Center(
-                child: CircleAvatar(
-                  // 사이즈
-                  radius: 40,
-                  child: CupertinoButton(
-                    padding: _pickedImage == null ? null : EdgeInsets.zero,
-                    onPressed: () {
-                      ImagePicker()
-                          .pickImage(source: ImageSource.gallery)
-                          .then((xFile) {
-                        // xFile 값 null 이면 return
-                        if (xFile == null) return;
-                        //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
-                        setState(() {
-                          _pickedImage = File(xFile.path);
-                        });
-                      });
-                    },
-                    child: _pickedImage == null
-                        ? const Icon(
-                            CupertinoIcons.photo_camera_solid,
-                            size: 30,
-                            color: Colors.white,
-                          )
-                        : CircleAvatar(
-                            // nullCheck ! 를 해주어 무조건 들어온다 라는 것을 의미
-                            foregroundImage: FileImage(_pickedImage!),
-                            radius: 40,
-                          ),
+          child: SingleChildScrollView(
+            child: Column(
+              // 반대축 정렬 start
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '어떤 약인가요?',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const SizedBox(
+                  height: largeSpace,
+                ),
+                Center(
+                  child: CircleAvatar(
+                    // 사이즈
+                    radius: 40,
+                    child: CupertinoButton(
+                      padding: _pickedImage == null ? null : EdgeInsets.zero,
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SafeArea(
+                                child: Padding(
+                                  padding: pagePadding,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            ImagePicker()
+                                                .pickImage(
+                                                    source: ImageSource.camera)
+                                                .then((xFile) {
+                                              // xFile 값 null 이면 return
+                                              if (xFile != null) {
+                                                //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
+                                                setState(() {
+                                                  _pickedImage =
+                                                      File(xFile.path);
+                                                  Navigator.maybePop(context);
+                                                });
+                                              }
+                                              // xFile 이 없으면 pop 해줘라!
+                                              Navigator.maybePop(context);
+                                            });
+                                          },
+                                          child: const Text('카메라 열기')),
+                                      TextButton(
+                                          onPressed: () {
+                                            ImagePicker()
+                                                .pickImage(
+                                                    source: ImageSource.gallery)
+                                                .then((xFile) {
+                                              if (xFile != null) {
+                                                //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
+                                                setState(() {
+                                                  _pickedImage =
+                                                      File(xFile.path);
+                                                  Navigator.maybePop(context);
+                                                });
+                                              }
+                                              // xFile 이 없으면 pop 해줘라!
+                                              Navigator.maybePop(context);
+                                            });
+                                          },
+                                          child: const Text('갤러리 열기')),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                      child: _pickedImage == null
+                          ? const Icon(
+                              CupertinoIcons.photo_camera_solid,
+                              size: 30,
+                              color: Colors.white,
+                            )
+                          : CircleAvatar(
+                              // nullCheck ! 를 해주어 무조건 들어온다 라는 것을 의미
+                              foregroundImage: FileImage(_pickedImage!),
+                              radius: 40,
+                            ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: largeSpace + regularSpace,
-              ),
-              Text(
-                '약 이름',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              TextFormField(
-                controller: _nameController,
-                maxLength: 20,
-                // 키패트 타입
-                keyboardType: TextInputType.text,
-                // 키패드의 submit 버튼
-                textInputAction: TextInputAction.done,
-                style: Theme.of(context).textTheme.bodyText1,
-                // 글자를 입력할때 스타일
-                decoration: InputDecoration(
-                  hintText: '복용할 막 이름을 기입 해주세요.',
-                  hintStyle: Theme.of(context).textTheme.bodyText2,
-                  // 가로 여백 6만큼 적용
-                  contentPadding: textFieldContentPadding,
+                const SizedBox(
+                  height: largeSpace + regularSpace,
                 ),
-              ),
-            ],
+                Text(
+                  '약 이름',
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+                TextFormField(
+                  controller: _nameController,
+                  maxLength: 20,
+                  // 키패트 타입
+                  keyboardType: TextInputType.text,
+                  // 키패드의 submit 버튼
+                  textInputAction: TextInputAction.done,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  // 글자를 입력할때 스타일
+                  decoration: InputDecoration(
+                    hintText: '복용할 막 이름을 기입 해주세요.',
+                    hintStyle: Theme.of(context).textTheme.bodyText2,
+                    // 가로 여백 6만큼 적용
+                    contentPadding: textFieldContentPadding,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
