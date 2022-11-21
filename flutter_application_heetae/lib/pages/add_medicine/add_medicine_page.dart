@@ -72,6 +72,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                     // 가로 여백 6만큼 적용
                     contentPadding: textFieldContentPadding,
                   ),
+                  onChanged: (str) => setState(() {}),
                 ),
               ],
             ),
@@ -85,7 +86,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
         child: SizedBox(
           height: submitButtonHeight,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: _nameController.text.isEmpty ? null : () {},
             style: ElevatedButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.subtitle1),
             child: Text('다음'),
