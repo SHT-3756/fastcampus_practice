@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddMedicinePage extends StatefulWidget {
   const AddMedicinePage({super.key});
@@ -12,6 +15,8 @@ class AddMedicinePage extends StatefulWidget {
 
 class _AddMedicinePageState extends State<AddMedicinePage> {
   final _nameController = TextEditingController();
+
+  File? _pickedImage;
 
   @override
   void dispose() {
@@ -49,12 +54,30 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                   // 사이즈
                   radius: 40,
                   child: CupertinoButton(
-                    onPressed: () {},
-                    child: const Icon(
-                      CupertinoIcons.photo_camera_solid,
-                      size: 30,
-                      color: Colors.white,
-                    ),
+                    padding: _pickedImage == null ? null : EdgeInsets.zero,
+                    onPressed: () {
+                      ImagePicker()
+                          .pickImage(source: ImageSource.gallery)
+                          .then((xFile) {
+                        // xFile 값 null 이면 return
+                        if (xFile == null) return;
+                        //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
+                        setState(() {
+                          _pickedImage = File(xFile.path);
+                        });
+                      });
+                    },
+                    child: _pickedImage == null
+                        ? const Icon(
+                            CupertinoIcons.photo_camera_solid,
+                            size: 30,
+                            color: Colors.white,
+                          )
+                        : CircleAvatar(
+                            // nullCheck ! 를 해주어 무조건 들어온다 라는 것을 의미
+                            foregroundImage: FileImage(_pickedImage!),
+                            radius: 40,
+                          ),
                   ),
                 ),
               ),
