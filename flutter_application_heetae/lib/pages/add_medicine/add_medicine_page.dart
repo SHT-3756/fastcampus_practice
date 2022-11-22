@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
+import 'package:flutter_application_heetae/pages/add_medicine/add_alarm_page.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddMedicinePage extends StatefulWidget {
@@ -14,6 +15,8 @@ class AddMedicinePage extends StatefulWidget {
 
 class _AddMedicinePageState extends State<AddMedicinePage> {
   final _nameController = TextEditingController();
+
+  File? _medicineImage;
 
   @override
   void dispose() {
@@ -47,8 +50,12 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                 const SizedBox(
                   height: largeSpace,
                 ),
-                const Center(
-                  child: MedicineImageButton(),
+                Center(
+                  child: MedicineImageButton(
+                    changeImageFile: (File? value) {
+                      _medicineImage = value;
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: largeSpace + regularSpace,
@@ -86,7 +93,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
         child: SizedBox(
           height: submitButtonHeight,
           child: ElevatedButton(
-            onPressed: _nameController.text.isEmpty ? null : () {},
+            onPressed: _nameController.text.isEmpty ? null : _onAddAlarmPage,
             style: ElevatedButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.subtitle1),
             child: Text('다음'),
@@ -95,11 +102,24 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
       )),
     );
   }
+
+  void _onAddAlarmPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddAlarmPage(
+                medicineName: _nameController.text,
+                medicineImage: _medicineImage)));
+  }
 }
 
 // 이미지 버튼 클래스
 class MedicineImageButton extends StatefulWidget {
-  const MedicineImageButton({super.key});
+  const MedicineImageButton({super.key, required this.changeImageFile});
+
+  // ValueChanged : value 값 변화하는지 알 수 있는 타입
+  // state 클래스 안의 변수값 _pickedImage 을 값을 저장하기 위한 변수를 changeImageFile 선언
+  final ValueChanged<File?> changeImageFile;
 
   @override
   State<MedicineImageButton> createState() => _MedicineImageButtonState();
@@ -150,6 +170,7 @@ class _MedicineImageButtonState extends State<MedicineImageButton> {
         //xFile 값 있으면 File 객체 사용해서 _pickedImage 변수에 저장
         setState(() {
           _pickedImage = File(xFile.path);
+          widget.changeImageFile(_pickedImage);
         });
       }
       // xFile 이 없으면 pop 해줘라!
