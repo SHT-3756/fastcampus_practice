@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
+import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_alarm_page.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -106,8 +107,9 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
   void _onAddAlarmPage() {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => AddAlarmPage(
+        // 페이지 이름만 전달하면 되도록 클래스
+        CustomFadePageRoute(
+            page: AddAlarmPage(
                 medicineName: _nameController.text,
                 medicineImage: _medicineImage)));
   }
