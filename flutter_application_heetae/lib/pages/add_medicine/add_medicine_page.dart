@@ -36,10 +36,9 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
           // 포커싱 해제
           FocusScope.of(context).unfocus();
         },
-        child: Padding(
-          padding: pagePadding,
-          // 페이지 스크롤 가능하게 위젯 사용
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: pagePadding,
             child: Column(
               // 반대축 정렬 start
               crossAxisAlignment: CrossAxisAlignment.start,
