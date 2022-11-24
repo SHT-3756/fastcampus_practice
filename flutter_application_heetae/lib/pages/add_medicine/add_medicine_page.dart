@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_page_route.dart';
+import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_alarm_page.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -172,18 +173,11 @@ class PickImageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: pagePadding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(onPressed: onPressedCamera, child: const Text('카메라 열기')),
-            TextButton(
-                onPressed: onPressedGallery, child: const Text('갤러리 열기')),
-          ],
-        ),
-      ),
+    return BottomSheetBody(
+      children: [
+        TextButton(onPressed: onPressedCamera, child: const Text('카메라 열기')),
+        TextButton(onPressed: onPressedGallery, child: const Text('갤러리 열기')),
+      ],
     );
   }
 }

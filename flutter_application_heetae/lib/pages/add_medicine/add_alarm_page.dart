@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application_heetae/components/custom_colors.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
+import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 
 import 'components/add_page_widget.dart';
@@ -66,8 +68,54 @@ class AlarmBox extends StatelessWidget {
           child: TextButton(
             style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.subtitle2),
-            onPressed: () {},
-            child: Text('10:00시간'),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return BottomSheetBody(children: [
+                    SizedBox(
+                        // CupertinoDatePicker 함수 사용시, 사이즈를 선언 안해주면 에러가 난다.
+                        height: 200,
+                        child: CupertinoDatePicker(
+                          onDateTimeChanged: (dateTime) {},
+                          // 시간만 뜨게 적용
+                          mode: CupertinoDatePickerMode.time,
+                        )),
+                    const SizedBox(width: regularSpace),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                              height: submitButtonHeight,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      textStyle:
+                                          Theme.of(context).textTheme.subtitle1,
+                                      foregroundColor:
+                                          CustomColors.primaryColor,
+                                      backgroundColor: Colors.white),
+                                  onPressed: () {},
+                                  child: const Text('취소'))),
+                        ),
+                        const SizedBox(width: smallSpace),
+                        Expanded(
+                          child: SizedBox(
+                              height: submitButtonHeight,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1),
+                                  onPressed: () {},
+                                  child: const Text('선택'))),
+                        ),
+                      ],
+                    )
+                  ]);
+                },
+              );
+            },
+            child: Text('10:00'),
           ),
         ),
       ],
