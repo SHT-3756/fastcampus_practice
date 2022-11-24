@@ -26,6 +26,7 @@ class AddPageBody extends StatelessWidget {
   }
 }
 
+// 바텀전송버튼 클래스
 class BottomSubmitButton extends StatelessWidget {
   const BottomSubmitButton(
       {super.key, required this.onPressed, required this.text});
@@ -44,7 +45,7 @@ class BottomSubmitButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
               textStyle: Theme.of(context).textTheme.subtitle1),
-          child: Text('다음'),
+          child: Text(text),
         ),
       ),
     ));

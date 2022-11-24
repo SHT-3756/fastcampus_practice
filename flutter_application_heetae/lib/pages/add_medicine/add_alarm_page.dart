@@ -67,7 +67,7 @@ class AlarmBox extends StatelessWidget {
             style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.subtitle2),
             onPressed: () {},
-            child: Text('10:00'),
+            child: Text('10:00시간'),
           ),
         ),
       ],
@@ -93,7 +93,7 @@ class AddAlarmButton extends StatelessWidget {
           Expanded(flex: 1, child: Icon(CupertinoIcons.plus_circle_fill)),
           Expanded(
             flex: 5,
-            child: Center(child: Text('복용시간 추가')),
+            child: Center(child: Text('복용시간 추가12312')),
           ),
         ],
       ),
