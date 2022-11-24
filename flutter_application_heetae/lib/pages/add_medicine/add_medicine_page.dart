@@ -79,19 +79,9 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
       ),
 
       // SafeArea : ios x 이상만 영향이 간다. 이전 버전은 아무 변화 없다.
-      bottomNavigationBar: SafeArea(
-          child: Padding(
-        padding: submitButtonBoxPadding,
-        child: SizedBox(
-          height: submitButtonHeight,
-          child: ElevatedButton(
-            onPressed: _nameController.text.isEmpty ? null : _onAddAlarmPage,
-            style: ElevatedButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.subtitle1),
-            child: Text('다음'),
-          ),
-        ),
-      )),
+      bottomNavigationBar: BottomSubmitButton(
+          onPressed: _nameController.text.isEmpty ? null : _onAddAlarmPage,
+          text: '다음'),
     );
   }
 

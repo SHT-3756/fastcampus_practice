@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../components/custom_constant.dart';
 
@@ -22,5 +23,30 @@ class AddPageBody extends StatelessWidget {
             children: children),
       ),
     );
+  }
+}
+
+class BottomSubmitButton extends StatelessWidget {
+  const BottomSubmitButton(
+      {super.key, required this.onPressed, required this.text});
+
+  final VoidCallback? onPressed;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Padding(
+      padding: submitButtonBoxPadding,
+      child: SizedBox(
+        height: submitButtonHeight,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.subtitle1),
+          child: Text('다음'),
+        ),
+      ),
+    ));
   }
 }

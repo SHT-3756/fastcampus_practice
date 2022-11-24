@@ -39,6 +39,10 @@ class AddAlarmPage extends StatelessWidget {
         // medicineImage == null ? Container() : Image.file(medicineImage!),
         // Text(medicineName),
       ]),
+      bottomNavigationBar: BottomSubmitButton(
+        onPressed: () {},
+        text: '완료',
+      ),
     );
   }
 }
