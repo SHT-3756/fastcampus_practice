@@ -8,6 +8,7 @@ import 'package:flutter_application_heetae/components/custom_colors.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
+import 'package:intl/intl.dart';
 
 import 'components/add_page_widget.dart';
 
@@ -27,7 +28,7 @@ class AddAlarmPage extends StatefulWidget {
 
 class _AddAlarmPageState extends State<AddAlarmPage> {
   // 중복 체크를 위해 Date 타입 보단 String 타입으로 설정
-  final alarms = <String>{
+  final _alarms = <String>{
     '08:00',
     '13:00',
     '19:00',
@@ -64,15 +65,23 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   List<Widget> get alarmWidgets {
     final children = <Widget>[];
 
-    children.addAll(alarms.map((alarmTime) => AlarmBox(
+    children.addAll(_alarms.map((alarmTime) => AlarmBox(
           time: alarmTime,
           onPressedMinus: () {
             setState(() {
-              alarms.remove(alarmTime);
+              _alarms.remove(alarmTime);
             });
           },
         )));
-    children.add(const AddAlarmButton());
+    children.add(AddAlarmButton(
+      onPressedPlus: () {
+        final now = DateTime.now();
+        final nowTime = DateFormat('HH:mm').format(now);
+        setState(() {
+          _alarms.add(nowTime);
+        });
+      },
+    ));
     return children;
   }
 }
@@ -165,9 +174,9 @@ class TimePickerBottomSheet extends StatelessWidget {
 }
 
 class AddAlarmButton extends StatelessWidget {
-  const AddAlarmButton({
-    Key? key,
-  }) : super(key: key);
+  AddAlarmButton({Key? key, required this.onPressedPlus}) : super(key: key);
+
+  VoidCallback onPressedPlus;
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +185,7 @@ class AddAlarmButton extends StatelessWidget {
       style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
           textStyle: Theme.of(context).textTheme.subtitle1),
-      onPressed: () {},
+      onPressed: onPressedPlus,
       child: Row(
         children: const [
           Expanded(flex: 1, child: Icon(CupertinoIcons.plus_circle_fill)),
