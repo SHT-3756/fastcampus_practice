@@ -98,6 +98,8 @@ class AlarmBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initTime = DateFormat('HH:mm').parse(time);
+
     return Row(
       children: [
         Expanded(
@@ -115,7 +117,9 @@ class AlarmBox extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return const TimePickerBottomSheet();
+                  return TimePickerBottomSheet(
+                    initialDateTime: initTime,
+                  );
                 },
               );
             },
@@ -130,8 +134,10 @@ class AlarmBox extends StatelessWidget {
 class TimePickerBottomSheet extends StatelessWidget {
   const TimePickerBottomSheet({
     Key? key,
+    required this.initialDateTime,
   }) : super(key: key);
 
+  final DateTime initialDateTime;
   @override
   Widget build(BuildContext context) {
     return BottomSheetBody(children: [
@@ -142,6 +148,7 @@ class TimePickerBottomSheet extends StatelessWidget {
             onDateTimeChanged: (dateTime) {},
             // 시간만 뜨게 적용
             mode: CupertinoDatePickerMode.time,
+            initialDateTime: initialDateTime,
           )),
       const SizedBox(width: regularSpace),
       Row(
