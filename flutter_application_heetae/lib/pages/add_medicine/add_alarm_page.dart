@@ -8,6 +8,7 @@ import 'package:flutter_application_heetae/components/custom_colors.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
+import 'package:flutter_application_heetae/services/add_medicine_service.dart';
 import 'package:intl/intl.dart';
 
 import 'components/add_page_widget.dart';
@@ -28,11 +29,7 @@ class AddAlarmPage extends StatefulWidget {
 
 class _AddAlarmPageState extends State<AddAlarmPage> {
   // 중복 체크를 위해 Date 타입 보단 String 타입으로 설정
-  final _alarms = <String>{
-    '08:00',
-    '13:00',
-    '19:00',
-  };
+  final service = AddMedicineService();
 
   @override
   Widget build(BuildContext context) {
@@ -65,22 +62,12 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   List<Widget> get alarmWidgets {
     final children = <Widget>[];
 
-    children.addAll(_alarms.map((alarmTime) => AlarmBox(
+    children.addAll(service.alarms.map((alarmTime) => AlarmBox(
           time: alarmTime,
-          onPressedMinus: () {
-            setState(() {
-              _alarms.remove(alarmTime);
-            });
-          },
+          service: service,
         )));
     children.add(AddAlarmButton(
-      onPressedPlus: () {
-        final now = DateTime.now();
-        final nowTime = DateFormat('HH:mm').format(now);
-        setState(() {
-          _alarms.add(nowTime);
-        });
-      },
+      service: service,
     ));
     return children;
   }
@@ -90,11 +77,11 @@ class AlarmBox extends StatelessWidget {
   const AlarmBox({
     Key? key,
     required this.time,
-    required this.onPressedMinus,
+    required this.service,
   }) : super(key: key);
 
   final String time;
-  final VoidCallback onPressedMinus;
+  final AddMedicineService service;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +92,9 @@ class AlarmBox extends StatelessWidget {
         Expanded(
           flex: 1,
           child: IconButton(
-              onPressed: onPressedMinus,
+              onPressed: () {
+                service.removeAlarm(time);
+              },
               icon: const Icon(CupertinoIcons.minus_circle)),
         ),
         Expanded(
@@ -181,9 +170,9 @@ class TimePickerBottomSheet extends StatelessWidget {
 }
 
 class AddAlarmButton extends StatelessWidget {
-  AddAlarmButton({Key? key, required this.onPressedPlus}) : super(key: key);
+  const AddAlarmButton({Key? key, required this.service}) : super(key: key);
 
-  VoidCallback onPressedPlus;
+  final AddMedicineService service;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +181,7 @@ class AddAlarmButton extends StatelessWidget {
       style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
           textStyle: Theme.of(context).textTheme.subtitle1),
-      onPressed: onPressedPlus,
+      onPressed: service.addNowAlarm,
       child: Row(
         children: const [
           Expanded(flex: 1, child: Icon(CupertinoIcons.plus_circle_fill)),
