@@ -44,10 +44,14 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
           height: largeSpace,
         ),
         Expanded(
-            child: ListView(
-          children: alarmWidgets
-          // [AlarmBox(), AlarmBox(), AlarmBox(), AddAlarmButton()]
-          ,
+            //  상태값이 변화하는 것을 지켜보는 곳에다가 AnimateBuilder 를 감싸준다. (ChangeNotifier 을 위함)
+            child: AnimatedBuilder(
+          animation: service,
+          builder: (context, _) {
+            return ListView(
+              children: alarmWidgets,
+            );
+          },
         ))
         // medicineImage == null ? Container() : Image.file(medicineImage!),
         // Text(medicineName),
