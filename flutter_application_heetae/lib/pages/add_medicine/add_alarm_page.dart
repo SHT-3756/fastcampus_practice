@@ -89,8 +89,6 @@ class AlarmBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initTime = DateFormat('HH:mm').parse(time);
-
     return Row(
       children: [
         Expanded(
@@ -111,7 +109,8 @@ class AlarmBox extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return TimePickerBottomSheet(
-                    initialDateTime: initTime,
+                    initialTime: time,
+                    service: service,
                   );
                 },
               );
@@ -124,21 +123,32 @@ class AlarmBox extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TimePickerBottomSheet extends StatelessWidget {
-  const TimePickerBottomSheet({
+  TimePickerBottomSheet({
     Key? key,
-    required this.initialDateTime,
+    required this.initialTime,
+    required this.service,
   }) : super(key: key);
 
-  final DateTime initialDateTime;
+  final String initialTime;
+  final AddMedicineService service;
+
+  //DateTime 이  nonNullable 한 값인데, 처음에는 값이 없어서 ? 나 late 를 사용해줘야한다.
+  DateTime? _setDateTime;
+
   @override
   Widget build(BuildContext context) {
+    final initialDateTime = DateFormat('HH:mm').parse(initialTime);
+
     return BottomSheetBody(children: [
       SizedBox(
           // CupertinoDatePicker 함수 사용시, 사이즈를 선언 안해주면 에러가 난다.
           height: 200,
           child: CupertinoDatePicker(
-            onDateTimeChanged: (dateTime) {},
+            onDateTimeChanged: (dateTime) {
+              _setDateTime = dateTime;
+            },
             // 시간만 뜨게 적용
             mode: CupertinoDatePickerMode.time,
             initialDateTime: initialDateTime,
@@ -154,7 +164,7 @@ class TimePickerBottomSheet extends StatelessWidget {
                         textStyle: Theme.of(context).textTheme.subtitle1,
                         foregroundColor: CustomColors.primaryColor,
                         backgroundColor: Colors.white),
-                    onPressed: () {},
+                    onPressed: () => Navigator.pop(context),
                     child: const Text('취소'))),
           ),
           const SizedBox(width: smallSpace),
@@ -164,7 +174,12 @@ class TimePickerBottomSheet extends StatelessWidget {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         textStyle: Theme.of(context).textTheme.subtitle1),
-                    onPressed: () {},
+                    onPressed: () {
+                      service.SetAlarm(
+                          prevTime: initialTime,
+                          setTime: _setDateTime ?? initialDateTime);
+                      Navigator.pop(context);
+                    },
                     child: const Text('선택'))),
           ),
         ],

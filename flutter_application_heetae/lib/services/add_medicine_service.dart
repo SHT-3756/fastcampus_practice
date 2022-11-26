@@ -30,4 +30,17 @@ class AddMedicineService with ChangeNotifier {
     // 상태값이 변화하는 것을 지켜본다.
     notifyListeners();
   }
+
+  // 알람 시간 설정하는 함수
+  void SetAlarm({required String prevTime, required DateTime setTime}) {
+    final setTimeStr = DateFormat('HH:mm').format(setTime);
+
+    // 기존 값은 삭제
+    _alarms.remove(prevTime);
+    // 새로운 값은 추가
+    _alarms.add(setTimeStr);
+
+    // 상태값이 변화하는 것을 지켜본다.
+    notifyListeners();
+  }
 }
