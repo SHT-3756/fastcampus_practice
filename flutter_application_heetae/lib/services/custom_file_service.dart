@@ -10,8 +10,7 @@ Future<String> saveImageToLocalDirectory(File image) async {
   final folderPath = documentDirectory.path + '/medicine/images';
 
   // unique 한값으로 하기 위해 millisecondsSinceEpoch 사용
-  final filePath = folderPath +
-      '/medicine/images/${DateTime.now().millisecondsSinceEpoch}.png';
+  final filePath = folderPath + '/${DateTime.now().millisecondsSinceEpoch}.png';
 
   await Directory(folderPath).create(recursive: true);
 

@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 // setState 를 안쓰고, Service 에서 컨트롤 하면서, 앱에 상태가 변화하는 것을 바로 볼수 있게 with ChangeNorifier 추가
 class AddMedicineService with ChangeNotifier {
   final _alarms = <String>{
-    '0800',
-    '1300',
-    '1900',
+    '08:00',
+    '13:00',
+    '19:00',
   };
 
 // 다른 곳에서 get 만 가능하게 getter 함수 선언
