@@ -10,6 +10,7 @@ import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/services/add_medicine_service.dart';
+import 'package:flutter_application_heetae/services/custom_file_service.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -68,7 +69,13 @@ class AddAlarmPage extends StatelessWidget {
           if (!result) {
             showPermissionDenied(context, permissionMessage: '알람');
           }
+
           // 2. 이미지 저장 (로컬)
+          String? imageFilePath;
+
+          if (medicineImage != null) {
+            imageFilePath = await saveImageToLocalDirectory(medicineImage!);
+          }
           // 3. medicine model 추가 (로컬, hive)
         },
         text: '완료',
