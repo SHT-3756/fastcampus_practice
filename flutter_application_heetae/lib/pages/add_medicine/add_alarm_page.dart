@@ -60,16 +60,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       bottomNavigationBar: BottomSubmitButton(
         onPressed: () {
           // 1. 알람 추가
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              duration: Duration(seconds: 3),
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('알람 권한이 없습니다.'),
-                  TextButton(
-                      onPressed: openAppSettings, child: Text('설정창으로 이동'))
-                ],
-              )));
+          showPermissionDenied(context, permissionMessage: '알람 접근');
           // 2. 이미지 저장 (로컬)
           // 3. medicine model 추가 (로컬, hive)
         },
