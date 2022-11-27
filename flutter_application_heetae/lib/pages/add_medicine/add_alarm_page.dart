@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_heetae/components/custom_colors.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
+import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/services/add_medicine_service.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'components/add_page_widget.dart';
 
-class AddAlarmPage extends StatefulWidget {
+class AddAlarmPage extends StatelessWidget {
   // 이미지와 이름의 파라미터를 필수값으로 설정
   AddAlarmPage({super.key, this.medicineImage, required this.medicineName});
 
@@ -24,11 +25,6 @@ class AddAlarmPage extends StatefulWidget {
   // 이름이 저장될 변수 선언
   final String medicineName;
 
-  @override
-  State<AddAlarmPage> createState() => _AddAlarmPageState();
-}
-
-class _AddAlarmPageState extends State<AddAlarmPage> {
   // 중복 체크를 위해 Date 타입 보단 String 타입으로 설정
   final service = AddMedicineService();
 
@@ -58,9 +54,20 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
         // Text(medicineName),
       ]),
       bottomNavigationBar: BottomSubmitButton(
-        onPressed: () {
+        onPressed: () async {
+          bool result = false;
+
           // 1. 알람 추가
-          showPermissionDenied(context, permissionMessage: '알람 접근');
+          for (var alarm in service.alarms) {
+            result = await notification.addNotification(
+                alarmTimeStr: alarm,
+                title: '$alarm 약 먹을 시간이에요!',
+                body: '$medicineName 복약했다고 알려주세요!');
+          }
+
+          if (!result) {
+            showPermissionDenied(context, permissionMessage: '알람');
+          }
           // 2. 이미지 저장 (로컬)
           // 3. medicine model 추가 (로컬, hive)
         },
