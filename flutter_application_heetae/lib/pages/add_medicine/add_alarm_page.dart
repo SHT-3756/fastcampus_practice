@@ -10,6 +10,7 @@ import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/services/add_medicine_service.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'components/add_page_widget.dart';
 
@@ -57,7 +58,21 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
         // Text(medicineName),
       ]),
       bottomNavigationBar: BottomSubmitButton(
-        onPressed: () {},
+        onPressed: () {
+          // 1. 알람 추가
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 3),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text('알람 권한이 없습니다.'),
+                  TextButton(
+                      onPressed: openAppSettings, child: Text('설정창으로 이동'))
+                ],
+              )));
+          // 2. 이미지 저장 (로컬)
+          // 3. medicine model 추가 (로컬, hive)
+        },
         text: '완료',
       ),
     );

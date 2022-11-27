@@ -159,6 +159,8 @@ class _MedicineImageButtonState extends State<MedicineImageButton> {
       }
       // xFile 이 없으면 pop 해줘라!
       Navigator.maybePop(context);
+    }).onError((error, stackTrace) {
+      // show setting
     });
   }
 }
