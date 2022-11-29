@@ -12,10 +12,18 @@ class Medicine {
 
   @HiveField(0)
   final int id;
+
   @HiveField(1)
   final String name;
+
   @HiveField(2)
   final String? imagePath;
+
   @HiveField(3)
-  final Set<String> alarms;
+  final List<String> alarms;
+
+  @override
+  String toString() {
+    return '{id: $id, name: $name, imagePath: $imagePath, alarms: $alarms}';
+  }
 }

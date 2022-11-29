@@ -23,7 +23,7 @@ class BottomSheetBody extends StatelessWidget {
 void showPermissionDenied(BuildContext context,
     {required String permissionMessage}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -62,14 +62,14 @@ class AddAlarmPage extends StatelessWidget {
           // 1. 알람 추가
           for (var alarm in service.alarms) {
             result = await notification.addNotification(
-                medicineId: 0,
+                medicineId: medicineRepository.newId,
                 alarmTimeStr: alarm,
                 title: '$alarm 약 먹을 시간이에요!',
                 body: '$medicineName 복약했다고 알려주세요!');
           }
 
           if (!result) {
-            showPermissionDenied(context, permissionMessage: '알람');
+            return showPermissionDenied(context, permissionMessage: '알람');
           }
 
           // 2. 이미지 저장 (로컬)
@@ -80,10 +80,14 @@ class AddAlarmPage extends StatelessWidget {
           }
           // 3. medicine model 추가 (로컬, hive)
           final medicine = Medicine(
-              id: 0,
+              id: medicineRepository.newId,
               name: medicineName,
               imagePath: imageFilePath,
-              alarms: service.alarms);
+              alarms: service.alarms.toList());
+          medicineRepository.addMedicine(medicine);
+
+          // depth 가 많을 경우는 pop 여러번이 아닌 popUntil 을 사용해준다.
+          Navigator.popUntil(context, (route) => route.isFirst);
         },
         text: '완료',
       ),
