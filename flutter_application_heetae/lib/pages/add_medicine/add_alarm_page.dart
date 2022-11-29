@@ -8,6 +8,7 @@ import 'package:flutter_application_heetae/components/custom_colors.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/main.dart';
+import 'package:flutter_application_heetae/models/medicine.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/services/add_medicine_service.dart';
 import 'package:flutter_application_heetae/services/custom_file_service.dart';
@@ -61,6 +62,7 @@ class AddAlarmPage extends StatelessWidget {
           // 1. 알람 추가
           for (var alarm in service.alarms) {
             result = await notification.addNotification(
+                medicineId: 0,
                 alarmTimeStr: alarm,
                 title: '$alarm 약 먹을 시간이에요!',
                 body: '$medicineName 복약했다고 알려주세요!');
@@ -77,6 +79,11 @@ class AddAlarmPage extends StatelessWidget {
             imageFilePath = await saveImageToLocalDirectory(medicineImage!);
           }
           // 3. medicine model 추가 (로컬, hive)
+          final medicine = Medicine(
+              id: 0,
+              name: medicineName,
+              imagePath: imageFilePath,
+              alarms: service.alarms);
         },
         text: '완료',
       ),
