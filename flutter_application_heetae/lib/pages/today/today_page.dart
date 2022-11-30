@@ -8,6 +8,7 @@ import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/models/medicine.dart';
 import 'package:flutter_application_heetae/models/medicine_alarm.dart';
+import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/empty_widget.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -141,7 +142,13 @@ class MedicineListTitle extends StatelessWidget {
                   style: textStyle,
                 ),
                 TileActionButton(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                            context: context,
+                            builder: (context) => TimeSettingBottomSheet(
+                                initialTime: medicineAlarm.alarmsTime))
+                        .then((value) => print(value));
+                  },
                   title: '아까',
                 ),
                 Text(
