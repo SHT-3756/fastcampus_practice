@@ -32,12 +32,12 @@ class TodayPage extends StatelessWidget {
             // ListView.separated(separatorBuilder) : itemBuilder 사이사이마다 separatorBuilder 의 위젯을 추가
             child: ValueListenableBuilder(
                 valueListenable: medicineRepository.medicineBox.listenable(),
-                builder: _builderMEdicineListView)),
+                builder: _builderMedicineListView)),
       ],
     );
   }
 
-  Widget _builderMEdicineListView(context, Box<Medicine> box, _) {
+  Widget _builderMedicineListView(context, Box<Medicine> box, _) {
     final medicines = box.values.toList();
     final medicineAlarms = <MedicineAlarm>[];
 
@@ -63,9 +63,8 @@ class TodayPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: smallSpace),
           itemCount: medicineAlarms.length,
           itemBuilder: (context, index) {
-            return AfterTakeTitle(
-              medicineAlarm: medicineAlarms[index],
-            );
+            // 먹었는지 안먹었는지
+            return _buildListTile(medicineAlarms[index]);
           },
           // itemBuilder 사이 구분 하기 위한 위젯(여백을 넣어서 구분하게 만들었다.)
           separatorBuilder: (BuildContext context, int index) {
@@ -82,4 +81,48 @@ class TodayPage extends StatelessWidget {
       ),
     ]);
   }
+
+  Widget _buildListTile(MedicineAlarm medicineAlarms) {
+    return ValueListenableBuilder(
+        valueListenable: historyRepository.historyBox.listenable(),
+        builder: (context, Box<MedicineHistory> historyBox, _) {
+          if (historyBox.values.isEmpty) {
+            return BeforeTakeTitle(
+              medicineAlarm: medicineAlarms,
+            );
+          }
+
+          final todayTakeHistory = historyBox.values.singleWhere(
+            (history) =>
+                history.medicineId == medicineAlarms.id &&
+                history.alarmTime == medicineAlarms.alarmsTime &&
+                isToday(history.takeTime, DateTime.now()),
+            orElse: () => MedicineHistory(
+              medicineId: -1,
+              alarmTime: '',
+              takeTime: DateTime.now(),
+            ),
+          );
+
+          //  복용 전
+          if (todayTakeHistory.medicineId == -1 &&
+              todayTakeHistory.alarmTime == '') {
+            return BeforeTakeTitle(
+              medicineAlarm: medicineAlarms,
+            );
+          }
+          // 복용 후
+          return AfterTakeTitle(
+            medicineAlarm: medicineAlarms,
+          );
+        });
+  }
+}
+
+// 년월일이 같은 체크하는 함수
+//difference(DateTime.now()).isDays == 0 는 1월 5일 8시 ~ 1월 4일 8시의 day 는 동일하다라고 출력한다.
+bool isToday(DateTime source, DateTime destination) {
+  return source.year == destination.year &&
+      source.month == destination.month &&
+      source.day == destination.day;
 }
