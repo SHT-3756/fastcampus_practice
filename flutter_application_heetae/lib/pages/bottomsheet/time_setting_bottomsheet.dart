@@ -7,14 +7,16 @@ import '../../components/custom_constant.dart';
 import '../../components/custom_widget.dart';
 
 class TimeSettingBottomSheet extends StatelessWidget {
-  const TimeSettingBottomSheet({
-    Key? key,
-    required this.initialTime,
-    // required this.service,
-  }) : super(key: key);
+  const TimeSettingBottomSheet(
+      {Key? key,
+      required this.initialTime,
+      this.submitTitle = '선택',
+      this.bottomWidget})
+      : super(key: key);
 
   final String initialTime;
-  // final AddMedicineService service
+  final String submitTitle;
+  final Widget? bottomWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,9 @@ class TimeSettingBottomSheet extends StatelessWidget {
             mode: CupertinoDatePickerMode.time,
             initialDateTime: initialDateTime,
           )),
-      const SizedBox(width: regularSpace),
+      const SizedBox(width: smallSpace),
+      if (bottomWidget != null) bottomWidget!,
+      const SizedBox(width: smallSpace),
       Row(
         children: [
           Expanded(
@@ -60,7 +64,7 @@ class TimeSettingBottomSheet extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context, setDateTime);
                     },
-                    child: const Text('선택'))),
+                    child: Text(submitTitle))),
           ),
         ],
       )
