@@ -11,6 +11,7 @@ import 'package:flutter_application_heetae/models/medicine_alarm.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/empty_widget.dart';
+import 'package:flutter_application_heetae/pages/today/today_take_title.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class TodayPage extends StatelessWidget {
@@ -62,7 +63,7 @@ class TodayPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: smallSpace),
           itemCount: medicineAlarms.length,
           itemBuilder: (context, index) {
-            return MedicineListTitle(
+            return AfterTakeTitle(
               medicineAlarm: medicineAlarms[index],
             );
           },
@@ -80,146 +81,5 @@ class TodayPage extends StatelessWidget {
         thickness: 1.0,
       ),
     ]);
-  }
-}
-
-class MedicineListTitle extends StatelessWidget {
-  const MedicineListTitle({
-    Key? key,
-    required this.medicineAlarm,
-  }) : super(key: key);
-
-  final MedicineAlarm medicineAlarm;
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText2;
-
-    return Row(
-      children: [
-        CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: medicineAlarm.imagePath == null
-              ? null
-              : () {
-                  Navigator.push(
-                      context,
-                      CustomFadePageRoute(
-                          page: ImageDetailPage(medicineAlarm: medicineAlarm)));
-                },
-          child: CircleAvatar(
-            radius: 40,
-            foregroundImage: medicineAlarm.imagePath == null
-                ? null
-                : FileImage(File(medicineAlarm.imagePath!)),
-          ),
-        ),
-        const SizedBox(
-          width: smallSpace,
-        ),
-        Expanded(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              '🕐${medicineAlarm.alarmsTime}',
-              style: textStyle,
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                Text(
-                  medicineAlarm.name,
-                  style: textStyle,
-                ),
-                TileActionButton(
-                  onTap: () {},
-                  title: '지금',
-                ),
-                Text(
-                  '|',
-                  style: textStyle,
-                ),
-                TileActionButton(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => TimeSettingBottomSheet(
-                          initialTime: medicineAlarm.alarmsTime),
-                    ).then((takeDateTime) {
-                      if (takeDateTime == null || takeDateTime is! DateTime) {
-                        return;
-                      }
-
-                      historyRepository.addHistory(MedicineHistory(
-                          medicineId: medicineAlarm.id,
-                          alarmTime: medicineAlarm.alarmsTime,
-                          takeTime: takeDateTime));
-                    });
-                  },
-                  title: '아까',
-                ),
-                Text(
-                  '먹었어요',
-                  style: textStyle,
-                ),
-              ],
-            )
-          ]),
-        ),
-        CupertinoButton(
-            onPressed: () {
-              medicineRepository.deleteMedicine(medicineAlarm.key);
-            },
-            child: const Icon(CupertinoIcons.ellipsis_vertical))
-      ],
-    );
-  }
-}
-
-class ImageDetailPage extends StatelessWidget {
-  const ImageDetailPage({
-    Key? key,
-    required this.medicineAlarm,
-  }) : super(key: key);
-
-  final MedicineAlarm medicineAlarm;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const CloseButton(),
-      ),
-      body: Center(
-        child: Image.file(File(medicineAlarm.imagePath!)),
-      ),
-    );
-  }
-}
-
-class TileActionButton extends StatelessWidget {
-  const TileActionButton({
-    Key? key,
-    required this.onTap,
-    required this.title,
-  }) : super(key: key);
-
-  final VoidCallback onTap;
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    final buttonTextStyle = Theme.of(context)
-        .textTheme
-        .bodyText2
-        ?.copyWith(fontWeight: FontWeight.w500);
-    return GestureDetector(
-        onTap: onTap,
-        child: Text(
-          title,
-          style: buttonTextStyle,
-        ));
   }
 }
