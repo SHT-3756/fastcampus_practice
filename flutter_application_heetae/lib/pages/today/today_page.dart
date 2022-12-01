@@ -11,7 +11,7 @@ import 'package:flutter_application_heetae/models/medicine_alarm.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/empty_widget.dart';
-import 'package:flutter_application_heetae/pages/today/today_take_title.dart';
+import 'package:flutter_application_heetae/pages/today/today_take_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class TodayPage extends StatelessWidget {
@@ -114,6 +114,7 @@ class TodayPage extends StatelessWidget {
           // 복용 후
           return AfterTakeTitle(
             medicineAlarm: medicineAlarms,
+            history: todayTakeHistory,
           );
         });
   }

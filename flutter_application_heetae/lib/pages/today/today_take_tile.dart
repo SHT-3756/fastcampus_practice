@@ -9,6 +9,7 @@ import 'package:flutter_application_heetae/models/medicine_alarm.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/image_detail_page.dart';
+import 'package:intl/intl.dart';
 
 class BeforeTakeTitle extends StatelessWidget {
   const BeforeTakeTitle({
@@ -55,7 +56,12 @@ class BeforeTakeTitle extends StatelessWidget {
             style: textStyle,
           ),
           TileActionButton(
-            onTap: () {},
+            onTap: () {
+              historyRepository.addHistory(MedicineHistory(
+                  medicineId: medicineAlarm.id,
+                  alarmTime: medicineAlarm.alarmsTime,
+                  takeTime: DateTime.now()));
+            },
             title: '지금',
           ),
           Text(
@@ -95,9 +101,11 @@ class AfterTakeTitle extends StatelessWidget {
   const AfterTakeTitle({
     Key? key,
     required this.medicineAlarm,
+    required this.history,
   }) : super(key: key);
 
   final MedicineAlarm medicineAlarm;
+  final MedicineHistory history;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +148,7 @@ class AfterTakeTitle extends StatelessWidget {
           style: textStyle,
           children: [
             TextSpan(
-                text: '20:19',
+                text: DateFormat('HH:mm').format(history.takeTime),
                 style: textStyle?.copyWith(fontWeight: FontWeight.w500))
           ])),
       const SizedBox(
@@ -155,7 +163,7 @@ class AfterTakeTitle extends StatelessWidget {
           ),
           TileActionButton(
             onTap: () {},
-            title: '20시 19분에',
+            title: DateFormat('HH시 mm분에').format(history.takeTime),
           ),
           Text(
             '먹었어요',
