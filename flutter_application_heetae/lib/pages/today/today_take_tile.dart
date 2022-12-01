@@ -69,22 +69,7 @@ class BeforeTakeTitle extends StatelessWidget {
             style: textStyle,
           ),
           TileActionButton(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => TimeSettingBottomSheet(
-                    initialTime: medicineAlarm.alarmsTime),
-              ).then((takeDateTime) {
-                if (takeDateTime == null || takeDateTime is! DateTime) {
-                  return;
-                }
-
-                historyRepository.addHistory(MedicineHistory(
-                    medicineId: medicineAlarm.id,
-                    alarmTime: medicineAlarm.alarmsTime,
-                    takeTime: takeDateTime));
-              });
-            },
+            onTap: () => _onPreviousTake(context),
             title: '아까',
           ),
           Text(
@@ -94,6 +79,23 @@ class BeforeTakeTitle extends StatelessWidget {
         ],
       )
     ];
+  }
+
+  void _onPreviousTake(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) =>
+          TimeSettingBottomSheet(initialTime: medicineAlarm.alarmsTime),
+    ).then((takeDateTime) {
+      if (takeDateTime == null || takeDateTime is! DateTime) {
+        return;
+      }
+
+      historyRepository.addHistory(MedicineHistory(
+          medicineId: medicineAlarm.id,
+          alarmTime: medicineAlarm.alarmsTime,
+          takeTime: takeDateTime));
+    });
   }
 }
 
@@ -148,7 +150,7 @@ class AfterTakeTitle extends StatelessWidget {
           style: textStyle,
           children: [
             TextSpan(
-                text: DateFormat('HH:mm').format(history.takeTime),
+                text: takeTimeStr,
                 style: textStyle?.copyWith(fontWeight: FontWeight.w500))
           ])),
       const SizedBox(
@@ -162,7 +164,7 @@ class AfterTakeTitle extends StatelessWidget {
             style: textStyle,
           ),
           TileActionButton(
-            onTap: () {},
+            onTap: () => _onTap(context),
             title: DateFormat('HH시 mm분에').format(history.takeTime),
           ),
           Text(
@@ -172,6 +174,26 @@ class AfterTakeTitle extends StatelessWidget {
         ],
       )
     ];
+  }
+
+  String get takeTimeStr => DateFormat('HH:mm').format(history.takeTime);
+
+  void _onTap(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => TimeSettingBottomSheet(initialTime: takeTimeStr),
+    ).then((takeDateTime) {
+      if (takeDateTime == null || takeDateTime is! DateTime) {
+        return;
+      }
+
+      historyRepository.updateHistory(
+          key: history.key,
+          history: MedicineHistory(
+              medicineId: medicineAlarm.id,
+              alarmTime: medicineAlarm.alarmsTime,
+              takeTime: takeDateTime));
+    });
   }
 }
 
