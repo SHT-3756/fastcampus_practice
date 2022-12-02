@@ -6,6 +6,7 @@ import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_alarm_page.dart';
+import 'package:flutter_application_heetae/pages/bottomsheet/pick_image_bottomsheet.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'components/add_page_widget.dart';
@@ -168,20 +169,4 @@ class _MedicineImageButtonState extends State<_MedicineImageButton> {
 }
 
 // 뷰단에 보여지는 실질적인 바텀 시트
-class PickImageBottomSheet extends StatelessWidget {
-  const PickImageBottomSheet(
-      {super.key, this.onPressedCamera, this.onPressedGallery});
 
-  final VoidCallback? onPressedCamera;
-  final VoidCallback? onPressedGallery;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomSheetBody(
-      children: [
-        TextButton(onPressed: onPressedCamera, child: const Text('카메라 열기')),
-        TextButton(onPressed: onPressedGallery, child: const Text('갤러리 열기')),
-      ],
-    );
-  }
-}

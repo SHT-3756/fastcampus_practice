@@ -7,6 +7,7 @@ import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/models/medicine_alarm.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
+import 'package:flutter_application_heetae/pages/bottomsheet/more_action_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/image_detail_page.dart';
 import 'package:intl/intl.dart';
@@ -231,7 +232,14 @@ class _MoreButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
         onPressed: () {
-          medicineRepository.deleteMedicine(medicineAlarm.key);
+          // medicineRepository.deleteMedicine(medicineAlarm.key);
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => MoreActionBottomSheet(
+                    onPressedModify: () {},
+                    onPressedDeleteOnlyMedicine: () {},
+                    onPressedDeleteAll: () {},
+                  ));
         },
         child: const Icon(CupertinoIcons.ellipsis_vertical));
   }
