@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -38,6 +39,11 @@ class CustomNotificationService {
     await notification.initialize(initializationSettings);
   }
 
+  // 알람 id 값을 unique 하게 만들기 위한 함수
+  String alarmId(int medicineId, String alarmTime) {
+    return medicineId.toString() + alarmTime.replaceAll(':', '');
+  }
+
   Future<bool> addNotification({
     required int medicineId,
     required String alarmTimeStr,
@@ -65,8 +71,7 @@ class CustomNotificationService {
         : now.day;
 
     // id
-    String alarmTimeId = alarmTimeStr.replaceAll(':', '');
-    alarmTimeId = medicineId.toString() + alarmTimeId; // 1 + 0800 = 10800;
+    String alarmTimeId = alarmId(medicineId, alarmTimeStr);
 
     // add schedule notification
     final details = _notificationDetails(
@@ -92,7 +97,9 @@ class CustomNotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
+      payload: alarmTimeId,
     );
+    log('[notification list] ${await pendingNotificationIds}');
 
     return true;
   }
@@ -133,5 +140,27 @@ class CustomNotificationService {
     }
     // android 와 ios 가 아닐경우 false 로 리턴
     return false;
+  }
+
+  // function
+// 다중알람을 삭제하는 메소드
+  Future<void> deleteMultipleAlarm(List<String> alarmIds) async {
+    log('[before delete notification list] ${await pendingNotificationIds}');
+    for (final alarmId in alarmIds) {
+      final id = int.parse(alarmId);
+      await notification.cancel(id);
+    }
+
+    log('[after delete notification list] ${await pendingNotificationIds}');
+  }
+
+// getter
+// PendingNotificationRequest 타입을 반환
+// id 를 가져와서 로그를 찍기위함
+  Future<List<int>> get pendingNotificationIds {
+    final list = notification
+        .pendingNotificationRequests()
+        .then((value) => value.map((e) => e.id).toList());
+    return list;
   }
 }
