@@ -58,10 +58,13 @@ class BeforeTakeTitle extends StatelessWidget {
           TileActionButton(
             onTap: () {
               historyRepository.addHistory(MedicineHistory(
-                  medicineId: medicineAlarm.id,
-                  medicineKey: medicineAlarm.key,
-                  alarmTime: medicineAlarm.alarmsTime,
-                  takeTime: DateTime.now()));
+                medicineId: medicineAlarm.id,
+                medicineKey: medicineAlarm.key,
+                alarmTime: medicineAlarm.alarmsTime,
+                takeTime: DateTime.now(),
+                imagePath: medicineAlarm.imagePath,
+                name: medicineAlarm.name,
+              ));
             },
             title: '지금',
           ),
@@ -93,10 +96,13 @@ class BeforeTakeTitle extends StatelessWidget {
       }
 
       historyRepository.addHistory(MedicineHistory(
-          medicineId: medicineAlarm.id,
-          medicineKey: medicineAlarm.key,
-          alarmTime: medicineAlarm.alarmsTime,
-          takeTime: takeDateTime));
+        medicineId: medicineAlarm.id,
+        medicineKey: medicineAlarm.key,
+        alarmTime: medicineAlarm.alarmsTime,
+        takeTime: takeDateTime,
+        imagePath: medicineAlarm.imagePath,
+        name: medicineAlarm.name,
+      ));
     });
   }
 }
@@ -202,10 +208,13 @@ class AfterTakeTitle extends StatelessWidget {
       historyRepository.updateHistory(
           key: history.key,
           history: MedicineHistory(
-              medicineId: medicineAlarm.id,
-              medicineKey: medicineAlarm.key,
-              alarmTime: medicineAlarm.alarmsTime,
-              takeTime: takeDateTime));
+            medicineId: medicineAlarm.id,
+            medicineKey: medicineAlarm.key,
+            alarmTime: medicineAlarm.alarmsTime,
+            takeTime: takeDateTime,
+            imagePath: medicineAlarm.imagePath,
+            name: medicineAlarm.name,
+          ));
     });
   }
 }

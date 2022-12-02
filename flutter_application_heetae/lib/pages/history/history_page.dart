@@ -50,6 +50,7 @@ class _TimeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(history);
     return Row(
       children: [
         Expanded(
@@ -64,6 +65,7 @@ class _TimeTile extends StatelessWidget {
                 leadingDistribution: TextLeadingDistribution.even),
           ),
         ),
+        const SizedBox(width: smallSpace),
         Stack(
           alignment: const Alignment(0.0, -0.3),
           children: const [
@@ -110,7 +112,11 @@ class _TimeTile extends StatelessWidget {
         (element) =>
             element.id == history.medicineId &&
             element.key == history.medicineKey,
-        orElse: () =>
-            Medicine(id: -1, name: '삭제된 약입니다.', imagePath: null, alarms: []));
+        orElse: () => Medicine(
+              alarms: [],
+              id: -1,
+              imagePath: history.imagePath,
+              name: history.name,
+            ));
   }
 }
