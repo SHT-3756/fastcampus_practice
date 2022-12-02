@@ -5,6 +5,7 @@ import 'package:flutter_application_heetae/repositories/custom_hive.dart';
 import 'package:flutter_application_heetae/repositories/medicine_history_repository.dart';
 import 'package:flutter_application_heetae/repositories/medicine_repository.dart';
 import 'package:flutter_application_heetae/services/custom_notification_service.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final notification = CustomNotificationService();
 final hive = CustomHive();
@@ -14,6 +15,9 @@ final historyRepository = MedicineHistoryRepository();
 void main() async {
   // 서버나 SharedPreferences 등 비동기데이터 작업 후 runApp 실행시 추가
   WidgetsFlutterBinding.ensureInitialized();
+
+  // DateFormatting local
+  await initializeDateFormatting();
 
   // 초기화
   await notification.initializeNotification();

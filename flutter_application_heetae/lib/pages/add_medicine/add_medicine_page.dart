@@ -45,7 +45,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
               height: largeSpace,
             ),
             Center(
-              child: MedicineImageButton(
+              child: _MedicineImageButton(
                 changeImageFile: (File? value) {
                   _medicineImage = value;
                 },
@@ -98,18 +98,18 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
 }
 
 // 이미지 버튼 클래스
-class MedicineImageButton extends StatefulWidget {
-  const MedicineImageButton({super.key, required this.changeImageFile});
+class _MedicineImageButton extends StatefulWidget {
+  const _MedicineImageButton({super.key, required this.changeImageFile});
 
   // ValueChanged : value 값 변화하는지 알 수 있는 타입
   // state 클래스 안의 변수값 _pickedImage 을 값을 저장하기 위한 변수를 changeImageFile 선언
   final ValueChanged<File?> changeImageFile;
 
   @override
-  State<MedicineImageButton> createState() => _MedicineImageButtonState();
+  State<_MedicineImageButton> createState() => _MedicineImageButtonState();
 }
 
-class _MedicineImageButtonState extends State<MedicineImageButton> {
+class _MedicineImageButtonState extends State<_MedicineImageButton> {
   File? _pickedImage;
 
   @override
