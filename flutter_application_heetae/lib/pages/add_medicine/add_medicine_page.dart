@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/components/custom_widget.dart';
+import 'package:flutter_application_heetae/main.dart';
+import 'package:flutter_application_heetae/models/medicine.dart';
 import 'package:flutter_application_heetae/pages/add_medicine/add_alarm_page.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/pick_image_bottomsheet.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,16 +14,41 @@ import 'package:image_picker/image_picker.dart';
 import 'components/add_page_widget.dart';
 
 class AddMedicinePage extends StatefulWidget {
-  const AddMedicinePage({super.key});
+  const AddMedicinePage({super.key, this.updateMedicineId = -1});
+
+  final int updateMedicineId;
 
   @override
   State<AddMedicinePage> createState() => _AddMedicinePageState();
 }
 
 class _AddMedicinePageState extends State<AddMedicinePage> {
-  final TextEditingController _nameController = TextEditingController();
+  late TextEditingController _nameController;
 
   File? _medicineImage;
+
+  // getter
+  bool get _isUpdate => widget.updateMedicineId != -1;
+  // 클릭한 id 값과 medicineRepository 에서 id 가 값은 값을 리턴해라
+  Medicine get _updateMedicine =>
+      medicineRepository.medicineBox.values.singleWhere(
+        (medicine) => medicine == widget.updateMedicineId,
+      );
+
+  @override
+  void initState() {
+    super.initState();
+    if (_isUpdate) {
+      // 수정 일때
+      _nameController = TextEditingController(text: _updateMedicine.name);
+      if (_updateMedicine.imagePath != null) {
+        _medicineImage = File(_updateMedicine.imagePath!);
+      }
+    } else {
+      // 첫 추가 일때
+      _nameController = TextEditingController();
+    }
+  }
 
   @override
   void dispose() {
@@ -47,6 +74,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
             ),
             Center(
               child: _MedicineImageButton(
+                updateImage: _medicineImage,
                 changeImageFile: (File? value) {
                   _medicineImage = value;
                 },
@@ -93,25 +121,36 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
         // 페이지 이름만 전달하면 되도록 클래스
         CustomFadePageRoute(
             page: AddAlarmPage(
-                medicineName: _nameController.text,
-                medicineImage: _medicineImage)));
+          medicineName: _nameController.text,
+          medicineImage: _medicineImage,
+          updateMedicineId: widget.updateMedicineId,
+        )));
   }
 }
 
 // 이미지 버튼 클래스
 class _MedicineImageButton extends StatefulWidget {
-  const _MedicineImageButton({super.key, required this.changeImageFile});
+  const _MedicineImageButton(
+      {super.key, required this.changeImageFile, this.updateImage});
 
   // ValueChanged : value 값 변화하는지 알 수 있는 타입
   // state 클래스 안의 변수값 _pickedImage 을 값을 저장하기 위한 변수를 changeImageFile 선언
   final ValueChanged<File?> changeImageFile;
 
+  final File? updateImage;
   @override
   State<_MedicineImageButton> createState() => _MedicineImageButtonState();
 }
 
 class _MedicineImageButtonState extends State<_MedicineImageButton> {
   File? _pickedImage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pickedImage = widget.updateImage;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,4 +208,3 @@ class _MedicineImageButtonState extends State<_MedicineImageButton> {
 }
 
 // 뷰단에 보여지는 실질적인 바텀 시트
-

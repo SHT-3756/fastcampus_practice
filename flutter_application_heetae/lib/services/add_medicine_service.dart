@@ -1,8 +1,24 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_application_heetae/main.dart';
 import 'package:intl/intl.dart';
 
 // setState 를 안쓰고, Service 에서 컨트롤 하면서, 앱에 상태가 변화하는 것을 바로 볼수 있게 with ChangeNorifier 추가
 class AddMedicineService with ChangeNotifier {
+  // 수정할때 필요한 생성자 추가
+  AddMedicineService(int updateMedicineId) {
+    final isUpdate = updateMedicineId != -1;
+
+    if (isUpdate) {
+      final updateAlarms = medicineRepository.medicineBox.values
+          .singleWhere(
+            (medicine) => medicine.id == updateMedicineId,
+          )
+          .alarms;
+
+      _alarms.clear();
+      _alarms.addAll(updateAlarms);
+    }
+  }
   final _alarms = <String>{
     '08:00',
     '13:00',

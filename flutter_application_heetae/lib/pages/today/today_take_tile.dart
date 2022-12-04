@@ -7,6 +7,7 @@ import 'package:flutter_application_heetae/components/custom_page_route.dart';
 import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/models/medicine_alarm.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
+import 'package:flutter_application_heetae/pages/add_medicine/add_medicine_page.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/more_action_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter_application_heetae/pages/today/image_detail_page.dart';
@@ -236,7 +237,15 @@ class _MoreButton extends StatelessWidget {
           showModalBottomSheet(
               context: context,
               builder: (context) => MoreActionBottomSheet(
-                    onPressedModify: () {},
+                    onPressedModify: () {
+                      Navigator.push(
+                        context,
+                        CustomFadePageRoute(
+                            page: AddMedicinePage(
+                          updateMedicineId: medicineAlarm.id,
+                        )),
+                      ).then((_) => Navigator.maybePop(context));
+                    },
                     onPressedDeleteOnlyMedicine: () {
                       // 1. 알람삭제
                       notification.deleteMultipleAlarm(alarmIds);

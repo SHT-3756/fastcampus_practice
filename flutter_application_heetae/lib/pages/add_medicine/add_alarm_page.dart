@@ -18,18 +18,27 @@ import 'package:permission_handler/permission_handler.dart';
 import '../bottomsheet/time_setting_bottomsheet.dart';
 import 'components/add_page_widget.dart';
 
+// ignore: must_be_immutable
 class AddAlarmPage extends StatelessWidget {
   // 이미지와 이름의 파라미터를 필수값으로 설정
-  AddAlarmPage({super.key, this.medicineImage, required this.medicineName});
+  AddAlarmPage(
+      {super.key,
+      required this.medicineImage,
+      required this.medicineName,
+      required this.updateMedicineId}) {
+    service = AddMedicineService(updateMedicineId);
+  }
 
   // 이미지가 저장될 변수 선언
   // final 변할 값이 없으니
   final File? medicineImage;
   // 이름이 저장될 변수 선언
   final String medicineName;
-
+  // 수정시 확인할 id 값
+  final int updateMedicineId;
   // 중복 체크를 위해 Date 타입 보단 String 타입으로 설정
-  final service = AddMedicineService();
+  // 멤버변수에는 변동되는 값을 넣어주지 못한다.
+  late AddMedicineService service;
 
   @override
   Widget build(BuildContext context) {
