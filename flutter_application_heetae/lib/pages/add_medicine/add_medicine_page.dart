@@ -32,7 +32,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
   // 클릭한 id 값과 medicineRepository 에서 id 가 값은 값을 리턴해라
   Medicine get _updateMedicine =>
       medicineRepository.medicineBox.values.singleWhere(
-        (medicine) => medicine == widget.updateMedicineId,
+        (medicine) => medicine.id == widget.updateMedicineId,
       );
 
   @override
