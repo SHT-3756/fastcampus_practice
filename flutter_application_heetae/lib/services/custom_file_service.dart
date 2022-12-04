@@ -23,3 +23,8 @@ Future<String> saveImageToLocalDirectory(File image) async {
 
   return filePath;
 }
+
+void deleteImage(String filePath) {
+  // recursive = true  하위 디렉토리가 잇을경우 하위까지 삭제를 해줌
+  File(filePath).delete(recursive: true);
+}

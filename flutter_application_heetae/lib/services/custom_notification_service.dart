@@ -144,7 +144,7 @@ class CustomNotificationService {
 
   // function
 // 다중알람을 삭제하는 메소드
-  Future<void> deleteMultipleAlarm(List<String> alarmIds) async {
+  Future<void> deleteMultipleAlarm(Iterable<String> alarmIds) async {
     log('[before delete notification list] ${await pendingNotificationIds}');
     for (final alarmId in alarmIds) {
       final id = int.parse(alarmId);
