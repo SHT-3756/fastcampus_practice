@@ -13,6 +13,7 @@ import 'package:flutter_application_heetae/pages/bottomsheet/time_setting_bottom
 import 'package:flutter_application_heetae/pages/today/empty_widget.dart';
 import 'package:flutter_application_heetae/pages/today/today_take_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 class TodayPage extends StatelessWidget {
   const TodayPage({super.key});
@@ -51,6 +52,11 @@ class TodayPage extends StatelessWidget {
             medicine.imagePath, alarm, medicine.key));
       }
     }
+
+    // 시간순으로 정렬
+    medicineAlarms.sort((a, b) => DateFormat('HH:mm')
+        .parse(a.alarmsTime)
+        .compareTo(DateFormat('HH:mm').parse(b.alarmsTime)));
 
     return Column(children: [
       const Divider(
