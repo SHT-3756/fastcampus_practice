@@ -3,6 +3,7 @@ import 'package:flutter_application_heetae/components/custom_constant.dart';
 import 'package:flutter_application_heetae/main.dart';
 import 'package:flutter_application_heetae/models/medicine.dart';
 import 'package:flutter_application_heetae/models/medicine_history.dart';
+import 'package:flutter_application_heetae/pages/today/history_empty_widget.dart';
 import 'package:flutter_application_heetae/pages/today/today_take_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +32,12 @@ class HistoryPage extends StatelessWidget {
 
   Widget _buildListView(context, Box<MedicineHistory> historyBox, _) {
     final histories = historyBox.values.toList().reversed.toList();
+
+    if (histories.isEmpty) {
+      // histories 가 비어있을때 HistoryEmpty 페이지 보여주기
+      return const HistoryEmpty();
+    }
+
     return ListView.builder(
         itemCount: histories.length,
         itemBuilder: (context, index) {
@@ -50,7 +57,6 @@ class _TimeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(history);
     return Row(
       children: [
         Expanded(
