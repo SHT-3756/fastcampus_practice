@@ -2,6 +2,7 @@ import 'package:ttoss_app/common/common.dart';
 import 'package:ttoss_app/common/theme/custom_theme_app.dart';
 import 'package:ttoss_app/screen/main/s_main.dart';
 import 'package:flutter/material.dart';
+import 'package:ttoss_app/screen/splash/s_splash.dart';
 
 import 'common/theme/custom_theme.dart';
 
@@ -44,7 +45,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
           locale: context.locale,
           title: 'Image Finder',
           theme: context.themeType.themeData,
-          home: const MainScreen(),
+          home: const SplashScreen(),
         );
       }),
     );
