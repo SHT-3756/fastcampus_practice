@@ -14,7 +14,13 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
   TabItem _currentTab = TabItem.home;
-  final tabs = [TabItem.home, TabItem.favorite];
+  final tabs = [
+    TabItem.home,
+    TabItem.benefit,
+    TabItem.stock,
+    TabItem.ttossPay,
+    TabItem.all,
+  ];
   final List<GlobalKey<NavigatorState>> navigatorKeys = [];
 
   int get _currentIndex => tabs.indexOf(_currentTab);
@@ -64,15 +70,14 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           .toList());
 
   Future<bool> _handleBackPressed() async {
-    final isFirstRouteInCurrentTab =
-        (await _currentTabNavigationKey.currentState?.maybePop() == false);
+    final isFirstRouteInCurrentTab = (await _currentTabNavigationKey.currentState?.maybePop() == false);
     if (isFirstRouteInCurrentTab) {
-      if (_currentTab != TabItem.home) {
-        _changeTab(tabs.indexOf(TabItem.home));
+      if (_currentTab != TabItem.home) { // home 이 아닌 경우
+        _changeTab(tabs.indexOf(TabItem.home)); // home 으로 강제 이동
         return false;
       }
     }
-    // maybePop 가능하면 나가지 않는다.
+    // maybePop 가능하면 나가지 않는다.  // 만약 마지막 히스토리가 home 이라면 앱 종료
     return isFirstRouteInCurrentTab;
   }
 
@@ -119,8 +124,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
     });
   }
 
-  BottomNavigationBarItem bottomItem(
-      bool activate, IconData iconData, IconData inActivateIconData, String label) {
+  BottomNavigationBarItem bottomItem(bool activate, IconData iconData, IconData inActivateIconData, String label) {
     return BottomNavigationBarItem(
         icon: Icon(
           key: ValueKey(label),
