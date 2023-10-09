@@ -49,6 +49,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver, AfterLayoutM
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           navigatorKey: App.navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
