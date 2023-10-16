@@ -48,5 +48,6 @@ ThemeData darkTheme = ThemeData(
     // textTheme: GoogleFonts.nanumMyeongjoTextTheme(
     //   ThemeData(brightness: Brightness.dark).textTheme,
     // ),
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: CustomTheme.dark.appColors.seedColor, brightness: Brightness.dark));
+colorScheme: const ColorScheme.dark(background: AppColors.veryDarkGrey));
+    // colorScheme: ColorScheme.fromSeed(
+    //     seedColor: CustomTheme.dark.appColors.seedColor, brightness: Brightness.dark));
