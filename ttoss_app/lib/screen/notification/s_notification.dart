@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ttoss_app/common/common.dart';
 import 'package:ttoss_app/screen/notification/notification_dummy.dart';
 import 'package:ttoss_app/screen/notification/w_notification_item.dart';
 
@@ -12,8 +13,8 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: CustomScrollView(
+    return Scaffold(
+      body: CustomScrollView(
         slivers: [
           const SliverAppBar(
             title: Text('알림'),
