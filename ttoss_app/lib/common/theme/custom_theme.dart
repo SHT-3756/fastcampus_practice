@@ -37,7 +37,8 @@ ThemeData lightTheme = ThemeData(
     // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
     //   ThemeData(brightness: Brightness.light).textTheme,
     // ),
-    colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
+    colorScheme:
+        ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
 
 const darkColorSeed = Color(0xbcd5ff7e);
 ThemeData darkTheme = ThemeData(
@@ -45,9 +46,4 @@ ThemeData darkTheme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.veryDarkGrey,
-    // textTheme: GoogleFonts.nanumMyeongjoTextTheme(
-    //   ThemeData(brightness: Brightness.dark).textTheme,
-    // ),
-colorScheme: const ColorScheme.dark(background: AppColors.veryDarkGrey));
-    // colorScheme: ColorScheme.fromSeed(
-    //     seedColor: CustomTheme.dark.appColors.seedColor, brightness: Brightness.dark));
+    colorScheme: const ColorScheme.dark(background: AppColors.veryDarkGrey));

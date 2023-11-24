@@ -12,11 +12,13 @@ final notificationDummies = <TtossNotification>[
     NotificationType.luck,
     '이번주에 영화 한편 어때요? 할인 쿠폰 두장 도착했어요',
     DateTime.now().subtract(1.hours),
+    isRead:  true,
   ),
   TtossNotification(
     NotificationType.moneyTip,
     '이번주에 영화 한편 어때요? 할인 쿠폰 두장 도착했어요',
     DateTime.now().subtract(27.minutes),
+    isRead:  true,
   ),
   TtossNotification(
     NotificationType.people,

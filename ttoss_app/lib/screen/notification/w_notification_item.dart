@@ -6,8 +6,8 @@ import 'vo/vo_notification.dart';
 
 class NotificationItemWidget extends StatefulWidget {
   final TtossNotification notification;
-
-  const NotificationItemWidget({Key? key, required this.notification})
+  final VoidCallback onTap;
+  const NotificationItemWidget({Key? key, required this.notification, required this.onTap})
       : super(key: key);
 
   @override
@@ -20,38 +20,41 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      color: widget.notification.isRead
-          ? context.backgroundColor
-          : context.appColors.unReadColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Width(leftPadding),
-              Image.asset(
-                widget.notification.type.iconPath,
-                width: iconWidth,
-              ),
-              widget.notification.type.name.text
-                  .size(12)
-                  .color(context.appColors.lessImportantText)
-                  .make(),
-              emptyExpanded,
-              timeago
-                  .format(widget.notification.time, locale: context.locale.languageCode)
-                  .text
-                  .size(13)
-                  .make(),
-              width10,
-            ],
-          ),
-          widget.notification.description.text
-              .make()
-              .pOnly(left: leftPadding + iconWidth)
-        ],
+    return Tap(
+      onTap: widget.onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        color: widget.notification.isRead
+            ? context.backgroundColor
+            : context.appColors.unReadColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Width(leftPadding),
+                Image.asset(
+                  widget.notification.type.iconPath,
+                  width: iconWidth,
+                ),
+                widget.notification.type.name.text
+                    .size(12)
+                    .color(context.appColors.lessImportantText)
+                    .make(),
+                emptyExpanded,
+                timeago
+                    .format(widget.notification.time, locale: context.locale.languageCode)
+                    .text
+                    .size(13)
+                    .make(),
+                width10,
+              ],
+            ),
+            widget.notification.description.text
+                .make()
+                .pOnly(left: leftPadding + iconWidth)
+          ],
+        ),
       ),
     );
   }
