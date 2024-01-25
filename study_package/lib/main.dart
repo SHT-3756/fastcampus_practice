@@ -4,6 +4,7 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:study_package/page/home_page.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:study_package/page/image_picker.dart';
+import 'package:study_package/screen/flutter_time_out.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ImagePickerPage(),
+      home: const TimeOutScreen(),
       // builder: EasyLoading.init(),
     );
   }
